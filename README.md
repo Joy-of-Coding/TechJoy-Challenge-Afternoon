@@ -18,7 +18,7 @@ Before you start, make sure you have:
 
 3. **Code Editor**
    - Recommended: [Visual Studio Code](https://code.visualstudio.com/)
-
+   - Or Cursor (which is basically VSCode with AI)
 ---
 
 ## 2️⃣ Verify Installations
