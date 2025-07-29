@@ -11,6 +11,7 @@ Before you start, make sure you have:
    - Download from: [https://nodejs.org](https://nodejs.org)
    - Install the **LTS** version (not the "Current" version)
    - Make sure to include **npm** (Node Package Manager) during installation
+Note:  If you already have Node.js installed, you still have to run npm install.
 
 2. **Git**
    - Download from: [https://git-scm.com/](https://git-scm.com/)
