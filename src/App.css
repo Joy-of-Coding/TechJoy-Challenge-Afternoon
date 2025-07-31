@@ -53,3 +53,15 @@ h2 {
   font-size: 1.25rem;
   margin-bottom: 0.5rem;
 }
+
+.timer-plant-section {
+  display: flex;
+  justify-content: center; /* Center them horizontally */
+  align-items: flex-start; /* Keep top edges aligned */
+  gap: 40px; /* Space between timer and plant */
+  margin-top: 30px;
+  padding: 20px;
+  background: #f9fff9; /* Light green background to make them pop */
+  border-radius: 16px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+}
