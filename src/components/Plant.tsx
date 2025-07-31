@@ -1,61 +1,51 @@
-import { useState } from "react";
+import { usePlantPoints } from '../hooks/usePlantPoints';
 
-// Updated stages: pot → sprout → bloom → party bloom!
+// Plant stages based on points
 const plantStages = ["🪴", "🌱", "🌸", "🌸🎉"];
 
 export default function Plant() {
-  const [stage, setStage] = useState(0);
+  const { plantPoints } = usePlantPoints();
 
-  // Move to the next stage if not at max
-  const growPlant = () => {
-    if (stage < plantStages.length - 1) {
-      setStage(stage + 1);
-    }
+  // Calculate plant stage based on points
+  const getPlantStage = () => {
+    if (plantPoints >= 31) return 3; // 🌸🎉 (party bloom!)
+    if (plantPoints >= 21) return 2; // 🌸 (bloom)
+    if (plantPoints >= 11) return 1; // 🌱 (sprout)
+    return 0; // 🪴 (pot)
   };
 
-  // Reset back to stage 0
-  const resetPlant = () => {
-    setStage(0);
-  };
+  const currentStage = getPlantStage();
 
   return (
     <section style={{ textAlign: "center", padding: "2rem" }}>
       <h2>🌿 Plant Progress Tracker 🌿</h2>
 
-      {/* Display the current stage */}
+      {/* Display the current stage based on points */}
       <div style={{ fontSize: "5rem", margin: "1.5rem 0" }}>
-        {plantStages[stage]}
+        {plantStages[currentStage]}
       </div>
 
-      {/* Test buttons */}
-      <button
-        onClick={growPlant}
-        style={{
-          marginRight: "0.5rem",
-          padding: "0.5rem 1.2rem",
-          fontSize: "1rem",
-          background: "#bbf7d0",
-          border: "none",
-          borderRadius: "8px",
-          cursor: "pointer",
-        }}
-      >
-        🌞 Grow Plant
-      </button>
+      {/* Show current points */}
+      <div style={{ 
+        fontSize: "1.2rem", 
+        margin: "1rem 0",
+        color: "#666",
+        fontWeight: "bold"
+      }}>
+        Points: {plantPoints}
+      </div>
 
-      <button
-        onClick={resetPlant}
-        style={{
-          padding: "0.5rem 1.2rem",
-          fontSize: "1rem",
-          background: "#fca5a5",
-          border: "none",
-          borderRadius: "8px",
-          cursor: "pointer",
-        }}
-      >
-        🔄 Reset Plant
-      </button>
+      {/* Progress info */}
+      <div style={{ 
+        fontSize: "0.9rem", 
+        color: "#888",
+        marginTop: "1rem"
+      }}>
+        {currentStage === 0 && "Complete tasks to grow your plant!"}
+        {currentStage === 1 && "Keep going! Your plant is sprouting!"}
+        {currentStage === 2 && "Beautiful! Your plant is blooming!"}
+        {currentStage === 3 && "Amazing! Your plant is celebrating! 🎉"}
+      </div>
     </section>
   );
 }
