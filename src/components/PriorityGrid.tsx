@@ -117,6 +117,7 @@ const PriorityGrid: React.FC = () => {
   };
 
   return (
+    <>
       {/* Add Task Form */}
       <form onSubmit={handleAddTask} className="add-task-form">
         <input
@@ -201,6 +202,7 @@ const PriorityGrid: React.FC = () => {
                  </div>
         </div>
       </section>
+    </>
  );
 };
 
