@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { toast } from "react-hot-toast";
 import "./PriorityGrid.css";
 import { useLocalStorage } from "../hooks/useLocalStorage";
-
+import { usePlantPoints } from '../hooks/usePlantPoints';
 interface Task {
   id: number;
   title: string;
@@ -32,6 +32,7 @@ const priorities = [
 
 const PriorityGrid: React.FC = () => {
   const [tasks, setTasks] = useLocalStorage<Task[]>("tasks", []);
+  const { addTimerPoints } = usePlantPoints();
   const [title, setTitle] = useState("");
   const [priority, setPriority] = useState(priorities[0].key);
   const [dueDate, setDueDate] = useState("");
@@ -81,6 +82,7 @@ const PriorityGrid: React.FC = () => {
               duration: 2500,
               style: { background: "#4caf50", color: "#fff", fontWeight: "bold" }
             });
+            addTimerPoints(); // 🌱 Award 1 plant point for completing a task
             return { ...task, completed: true, animation: "fade-out" };
           } else {
             // Undo — fade back in to active list

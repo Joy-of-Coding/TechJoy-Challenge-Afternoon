@@ -2,17 +2,27 @@ import { useMemo } from 'react';
 import { usePlantPoints } from '../hooks/usePlantPoints';
 
 // Plant stages based on points
-const plantStages = ["🪴", "🌱", "🌸", "🌸🎉"];
-
+// const plantStages = ["🪴", "🌱", "🌸", "🌸🎉"];
+const plantStages = ["🌱", "🌿", "🪴", "🌾", "🌻", "🌷", "🌸", "🌺", "🌳", "🌴"];
 export default function Plant() {
   const { plantPoints } = usePlantPoints();
 
   // Calculate plant stage based on points using useMemo
   const currentStage = useMemo(() => {
-    if (plantPoints >= 31) return 3; // 🌸🎉 (party bloom!)
-    if (plantPoints >= 21) return 2; // 🌸 (bloom)
-    if (plantPoints >= 11) return 1; // 🌱 (sprout)
-    return 0; // 🪴 (pot)
+//     if (plantPoints >= 31) return 3; // 🌸🎉 (party bloom!)
+//     if (plantPoints >= 21) return 2; // 🌸 (bloom)
+//     if (plantPoints >= 11) return 1; // 🌱 (sprout)
+//     return 0; // 🪴 (pot)
+if (plantPoints >= 9) return 9;  // 🌴 (9 tasks = fully grown)
+if (plantPoints >= 8) return 8;  // 🌳
+if (plantPoints >= 7) return 7;  // 🌺
+if (plantPoints >= 6) return 6;  // 🌸
+if (plantPoints >= 5) return 5;  // 🌷
+if (plantPoints >= 4) return 4;  // 🌻
+if (plantPoints >= 3) return 3;  // 🌾
+if (plantPoints >= 2) return 2;  // 🪴
+if (plantPoints >= 1) return 1;  // 🌿
+return 0; // 🌱 (0 tasks = seedling)
   }, [plantPoints]);
 
 
