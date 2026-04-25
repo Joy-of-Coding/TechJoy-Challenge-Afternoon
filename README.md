@@ -1,4 +1,4 @@
-# 🚀 Prioriplant — Project Setup Guide
+# 🚀 Prioriplant — Project Setup Guide   
 
 This guide will help you install and run **Prioriplant** on your local machine.
 
