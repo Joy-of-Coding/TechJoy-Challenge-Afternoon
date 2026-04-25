@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { toast } from "react-hot-toast";
 import "./PriorityGrid.css";
 import { useLocalStorage } from "../hooks/useLocalStorage";
+import { usePlantPoints } from '../hooks/usePlantPoints';
 
 interface Task {
   id: number;
@@ -32,10 +33,21 @@ const priorities = [
 
 const PriorityGrid: React.FC = () => {
   const [tasks, setTasks] = useLocalStorage<Task[]>("tasks", []);
+  // to be sure one Task is rewarded just one time when First it was completed and not 
+  // when completed after undo it. I used the awarded-tasks similar to awarded-goals 
+  // to avoid adding points for a  completed Tasks many times
+  const [awardedTasks, setAwardedTasks] = useLocalStorage<string[]>('awarded-tasks', []);
   const [title, setTitle] = useState("");
   const [priority, setPriority] = useState(priorities[0].key);
   const [dueDate, setDueDate] = useState("");
   const [showCompleted, setShowCompleted] = useState(true);
+  // I added this line to initialize the planGrowthPoints to 0 
+  // so I can use it here in this compnenet to store the growth persistenly 
+  const [plantPoints, setPlantPoints] = useLocalStorage('plantGrowthPoints', 0);
+  // i used that function to add point for a Task as I said I wanted to have different
+  // Steps compared with the Goals , for the Tasks I choose 3 points for each completed 
+  // Task sop that 10 tasks will give us 100% growth.
+  const { addTaskPoints } = usePlantPoints();
 
   const categoryFull =
     tasks.filter(t => t.priority === priority && !t.completed).length >= MAX_TASKS_PER_CATEGORY;
@@ -76,12 +88,22 @@ const PriorityGrid: React.FC = () => {
 
           if (nowCompleted) {
             // 🎉 Celebration toast
+            
             const message = celebrateMessages[Math.floor(Math.random() * celebrateMessages.length)];
             toast.success(message, {
               duration: 2500,
               style: { background: "#4caf50", color: "#fff", fontWeight: "bold" }
             });
-            return { ...task, completed: true, animation: "fade-out" };
+        // Award 3 points only once when marking as complete for the first time
+        // I checked if the Taks has  already rewards or not. if it is a new Task with 
+        // no rewards < I add its related points which is  3  and add it to the awarded Tasks array in the persistence
+        // storage. saved for later to check if it has already been rewarded. 
+        if (nowCompleted && !awardedTasks.includes(id.toString())) {
+          addTaskPoints();
+          setAwardedTasks([...awardedTasks, task.id.toString()]);
+        }
+
+         return { ...task, completed: true, animation: "fade-out" };
           } else {
             // Undo — fade back in to active list
             return { ...task, completed: false, animation: "fade-in" };
