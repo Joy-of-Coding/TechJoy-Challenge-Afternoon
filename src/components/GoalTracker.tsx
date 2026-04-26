@@ -10,6 +10,7 @@ interface Goal {
   createdAt: Date;
 }
 
+
 export default function GoalTracker() {
   const [goals, setGoals] = useLocalStorage<Goal[]>('weekly-goals', []);
   const [newGoalText, setNewGoalText] = useState('');

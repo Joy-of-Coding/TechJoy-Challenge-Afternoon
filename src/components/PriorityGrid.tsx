@@ -153,6 +153,7 @@ const PriorityGrid: React.FC = () => {
   return (
     <>
 //
+//
 // added by djw but did not work:
 //
 //      curTaskCount = tasks.length * 10;
