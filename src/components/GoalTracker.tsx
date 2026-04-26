@@ -38,7 +38,7 @@ export default function GoalTracker() {
         
         // Award 5 points only once when marking as complete for the first time
         if (newCompleted && !awardedGoals.includes(goalId)) {
-          addGoalPoints();
+ //         addGoalPoints();
           setAwardedGoals([...awardedGoals, goalId]);
         }
         

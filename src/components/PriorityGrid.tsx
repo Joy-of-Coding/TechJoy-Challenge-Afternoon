@@ -12,6 +12,24 @@ interface Task {
   animation?: string; // for fade in/out animations
 }
 
+// dw  added - this did not work to effect a global export of the value
+//export const curTaskCount = 0
+//export curTaskCount = tasks.length * 10
+
+// Global exports: 
+//declare global {
+//  var curTaskCount : number;
+//}
+//
+// Assign the value globally
+//(globalThis as any).curTaskCount = 0;
+//
+// later in code: tasks.length * 10;
+
+export {}; // Ensures this file is treated as a module
+
+// dw added end this block. 
+
 const MAX_TASKS_TOTAL = 10;
 const MAX_TASKS_PER_CATEGORY = 3;
 
@@ -134,6 +152,11 @@ const PriorityGrid: React.FC = () => {
 
   return (
     <>
+//
+// added by djw but did not work:
+//
+//      curTaskCount = tasks.length * 10;
+//
       {/* ===== Add Task Form ===== */}
       <form onSubmit={handleAddTask} className="add-task-form">
         <input
