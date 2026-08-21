@@ -3,7 +3,7 @@ import { toast } from "react-hot-toast";
 import "./PriorityGrid.css";
 import { useLocalStorage } from "../hooks/useLocalStorage";
 
-interface Task {
+export interface Task {
   id: number;
   title: string;
   priority: string;

@@ -1,56 +1,56 @@
 import { useMemo } from 'react';
-import { usePlantPoints } from '../hooks/usePlantPoints';
+import { useLocalStorage } from '../hooks/useLocalStorage';
+import { plantStages } from '../assets/plantStages';
+import type { Task } from './PriorityGrid';
 
-// Plant stages based on points
-const plantStages = ["🪴", "🌱", "🌸", "🌸🎉"];
+const stageMessages = [
+  "Complete tasks to grow your plant!",
+  "Nice! Your plant is sprouting!",
+  "Growing steadily, keep it up!",
+  "Look at that bud forming!",
+  "Beautiful! Your plant is blooming!",
+  "Amazing! Your plant is celebrating! 🎉",
+];
 
 export default function Plant() {
-  const { plantPoints } = usePlantPoints();
+  const [tasks] = useLocalStorage<Task[]>('tasks', []);
 
-  // Calculate plant stage based on points using useMemo
-  const currentStage = useMemo(() => {
-    if (plantPoints >= 31) return 3; // 🌸🎉 (party bloom!)
-    if (plantPoints >= 21) return 2; // 🌸 (bloom)
-    if (plantPoints >= 11) return 1; // 🌱 (sprout)
-    return 0; // 🪴 (pot)
-  }, [plantPoints]);
+  const completedCount = useMemo(
+    () => tasks.filter(task => task.completed).length,
+    [tasks]
+  );
 
-
-
+  // Every 2 completed tasks advances a stage, capping at stage 5 (full grown at 10 tasks)
+  const currentStage = useMemo(
+    () => Math.min(5, Math.ceil(completedCount / 2)),
+    [completedCount]
+  );
 
   return (
     <section>
       <h2>🌿 Plant Progress Tracker 🌿</h2>
 
-      {/* Display the current stage based on points */}
-      <div
-        style={{ fontSize: "5rem", margin: "1.5rem 0", textAlign: "center" }}
-      >
+      <div style={{ fontSize: "5rem", margin: "1.5rem 0", textAlign: "center" }}>
         {plantStages[currentStage]}
       </div>
 
-      {/* Show current points */}
-      {/* <div style={{ 
-        fontSize: "1.2rem", 
+      <div style={{
+        fontSize: "1.2rem",
         margin: "1rem 0",
-        color: "#666",
+        color: "#555",
         fontWeight: "bold",
         textAlign: "center"
       }}>
-        Current points: {plantPoints}
-      </div> */}
+        {/* {completedCount} / 10 tasks completed */}
+      </div>
 
-      {/* Progress info */}
-      <div style={{ 
-        fontSize: "0.9rem", 
+      <div style={{
+        fontSize: "0.9rem",
         color: "#888",
         marginTop: "1rem",
         textAlign: "center"
       }}>
-        {currentStage === 0 && "Complete tasks to grow your plant!"}
-        {currentStage === 1 && "Keep going! Your plant is sprouting!"}
-        {currentStage === 2 && "Beautiful! Your plant is blooming!"}
-        {currentStage === 3 && "Amazing! Your plant is celebrating! 🎉"}
+        {stageMessages[currentStage]}
       </div>
     </section>
   );
